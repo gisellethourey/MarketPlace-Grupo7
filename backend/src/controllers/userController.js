@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { createUser, getUserByEmail } from '../model/userModel.js';
+import { createUser, getUserByEmail, deleteUser, updateUser } from '../model/userModel.js';
 
 export const createUserController = async (req, res) => {
   const { username, email, phone_number, date_of_birth, password } = req.body;
@@ -107,5 +107,29 @@ export const logoutUserController = (req, res) => {
     } catch (error) {
       console.error('Error en el logout:', error);
       return res.status(500).json({ message: 'Error en el logout' });
+    }
+  };
+
+  // delete usuario
+  export const deleteUserController = async (req, res) => {
+    try {
+      const { id } = req.params;
+      await deleteUser(id);
+      res.send("Se ha eliminado el post");
+    } catch (error) {
+      console.log("Error en el DELETE", { message: error.message });
+    }
+  };
+
+  // update user
+  export const updateUserController = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { username, email, phone_number, date_of_birth, password } = req.body;
+      const result = await updateUser(id, username, email, phone_number, date_of_birth, password);
+
+      res.send(result);
+    } catch (error) {
+      console.log("Error en el UPDATE", { message: error.message });
     }
   };
