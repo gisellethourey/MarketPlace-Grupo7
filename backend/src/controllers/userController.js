@@ -59,7 +59,7 @@ export const loginUserController = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
 
     return res.status(200).json({
@@ -137,19 +137,20 @@ export const updateUserController = async (req, res) => {
 
   try {
   const my_user = await getUserByEmail(user_email);
+  const { id } = req.params;
   const { username, phone_number, password } = req.body;
 
   if (!username || !phone_number || !password) {
     return res.status(400).json({ message: 'Todos los campos son requeridos, excepto email y fecha de nacimiento' });
   }
 
-  if (my_user === user_id) {
-    return res.status(401).json({ message: 'No tienes permiso para actualizar este usuario', user_id, my_user_id: my_user.id});
+  
+  if (parseInt(id) !== parseInt(user_id)) {
+    return res.status(401).json({ message: 'No tienes permiso para actualizar este usuario'});
   }
 
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const id = my_user.id;
     const result = await updateUser(id, username, phone_number, hashedPassword);
 
     return res.status(200).json(result);
