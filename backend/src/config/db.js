@@ -22,5 +22,5 @@ try {
     await pool.query('SELECT NOW()');
     console.log('Database connected');
   } catch (error) {
-    console.log('fucking error',error);
+    console.log('error',error);
   }

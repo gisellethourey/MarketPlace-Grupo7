@@ -42,15 +42,16 @@ export const deleteUser = async (id) => {
   
   };
 
-export const updateUser = async (username, email, phone_number, date_of_birth, password, id) => {
-  try {
-      const sql = "UPDATE users SET username = $1, email = $2, phone_number = $3, date_of_birth = TO_DATE($4, 'DD/MM/YYYY'), password = $5 WHERE id = $6 RETURNING *";
-      const values = [username, email, phone_number, date_of_birth, password, id];
+  export const updateUser = async (id, username, phone_number, password) => {
+    try {
+      const sql = "UPDATE users SET username = $1, phone_number = $2, password = $3 WHERE id = $4 RETURNING *";
+      const values = [username, phone_number, password, id];
       const results = await pool.query(sql, values);
       if (results.rowCount > 0) {
-        console.log('[UPDATE_USER]',results.rows[0]);
-          return results.rows;
+        console.log('[UPDATE_USER]', results.rows[0]);
+        return results.rows;
       }
-  } catch (error) { console.log('error en archivo query.js', error.code, error.message);} 
-}
-  
+    } catch (error) {
+      console.log('error en archivo query.js', error.code, error.message);
+    }
+  }
