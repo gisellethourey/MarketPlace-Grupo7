@@ -1,34 +1,26 @@
 import { productModel } from '../model/productModel.js';
  
 
-const homeController = async (req, res) => {
-    res.send("Welcome to my API of products");
-};
+
 const createProductController = async (req, res) => {
-    
-    const { category, name, description, image, price  } = req.body;
+    const { category, name, description, image, price } = req.body;
+    const user_id = req.user.id; // Asumiendo que el middleware authenticateToken añade el ID del usuario a req.user
+  
     if (!category || !name || !description || !image || !price) {
-        return res.status(400).json({ message: 'Todos los campos son requeridos' });
+      return res.status(400).json({ message: 'Todos los campos son requeridos' });
     }
-        try {
-        const result = await productModel.createProduct(
-     {       category,
-            name,
-            description,
-            image,
-            price});
-            return res.status(201).json({
-                id: result.data.id,
-                username: result.data.username,
-                email: result.data.email,
-                phone_number: result.data.phone_number,
-                message: "Se ha agregado un nuevo producto" 
-              });
+  
+    try {
+      const product = await productModel.createProduct(category, name, description, image, price, user_id);
+      if (product.success === false) {
+        return res.status(500).json({ message: product.message });
+      }
+      res.status(201).json(product);
     } catch (error) {
-        console.error('Error creando el producto:', error);
-        res.status(500).json({ message: 'Error creando el producto' });
+      console.error('Error al crear el producto:', error);
+      res.status(500).json({ message: 'Error al crear el producto' });
     }
-};
+  };
 
 const getProductLimitController = async (req, res) => {
     const { limit } = req.params;
@@ -91,7 +83,6 @@ const deleteProductController = async (req, res) => {
 };
 
 export const productController = {
-    homeController,
     createProductController,
     getProductLimitController,
     getProductsController,
