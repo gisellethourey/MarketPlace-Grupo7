@@ -36,7 +36,8 @@ const getProductLimitController = async (req, res) => {
 const prepararHATEOAS = (products) => {
     const results = products.map((m) => {
         return {
-            name: m.nombre,
+            name: m.name,
+            price: m.price,
             href: `/products/product/${m.id}`,
         }
     }).slice(0, 9)
@@ -53,9 +54,7 @@ const getProductsController = async (req, res) => {
         const queryStrings = req.query;
         const products = await productModel.getProducts(queryStrings);
         const HATEOAS =  prepararHATEOAS(products)
-        const result = await productModel.getProducts();
         res.json(HATEOAS);
-        res.json(result);
     } catch (error) {
         console.log('falló la consulta',error.message);
     }
