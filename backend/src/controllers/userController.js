@@ -129,15 +129,27 @@ export const deleteUserController = async (req, res) => {
 
 
 export const updateUserController = async (req, res) => {
-  const { id } = req.params;
+  const user_id= req.user.id;
+  const user_email = req.user.email;
+  if (!user_id) {
+    return res.status(400).json({ message: 'Usuario no autenticado' });
+  }
+
+  try {
+  const my_user = await getUserByEmail(user_email);
   const { username, phone_number, password } = req.body;
 
   if (!username || !phone_number || !password) {
     return res.status(400).json({ message: 'Todos los campos son requeridos, excepto email y fecha de nacimiento' });
   }
 
-  try {
+  if (my_user === user_id) {
+    return res.status(401).json({ message: 'No tienes permiso para actualizar este usuario', user_id, my_user_id: my_user.id});
+  }
+
+
     const hashedPassword = await bcrypt.hash(password, 10);
+    const id = my_user.id;
     const result = await updateUser(id, username, phone_number, hashedPassword);
 
     return res.status(200).json(result);

@@ -20,6 +20,6 @@ router.get('/profile', authenticateToken, getUserProfileController);
 router.delete('/user/:id', deleteUserController);
 
 // Ruta para actualizar usuario
-router.put('/user/:id', updateUserController);
+router.put('/user/:id',authenticateToken, updateUserController);
 
 export default router;
