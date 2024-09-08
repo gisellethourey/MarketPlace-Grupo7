@@ -10,6 +10,6 @@ router.get('/products', productController.getProductsController);
 router.get('/products/category/:category', productController.getProductsFilteredController);
 router.post('/product',authenticateToken, productController.createProductController);
 
-router.delete('/product/:id', productController.deleteProductController);
+router.delete('/product/:id',authenticateToken,productController.deleteProductController);
 
 export default router;

@@ -32,6 +32,23 @@ const getProducts = async () => {
   return result.rows;
 };
 
+const getProductById = async (id) => {
+  const query = `
+          SELECT * FROM products
+          WHERE id = $1
+        `;
+
+  const values = [id];
+
+  try {
+    const result = await pool.query(query, values);
+    if (result.rowCount > 0) return result.rows[0];
+  } catch (error) {
+    console.error("Error al obtener el producto:", error);
+    return null;
+  }
+};
+
 const getProductsFiltered = async ({
   price_min,
   price_max,
@@ -107,15 +124,16 @@ const deleteProduct = async (id) => {
 
   try {
     const result = await pool.query(query, values);
-    return result.rows;
+    return result;
   } catch (error) {
-    console.log("error en archivo query.js", error.message);
+    console.log("error model", error.message);
   }
 };
 
 export const productModel = {
   getProductLimit,
   getProducts,
+  getProductById,
   getProductsFiltered,
   createProduct,
   updateProduct,
