@@ -5,7 +5,7 @@ import authenticateToken from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 
-router.get('/product/:id', productController.getProductLimitController);
+router.get('/product/:id', productController.getProductByIdController);
 router.get('/products', productController.getProductsController);
 router.get('/products/category/:category', productController.getProductsFilteredController);
 router.post('/product',authenticateToken, productController.createProductController);

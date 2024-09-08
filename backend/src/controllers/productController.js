@@ -75,6 +75,21 @@ const getProductsFilteredController = async (req, res) => {
     console.log("falló la consulta de filtro", error.message);
   }
 };
+
+const getProductByIdController = async (req, res) => { 
+    const { id } = req.params;
+    try {
+        const product = await productModel.getProductById(id);
+        if (!product) {
+        return res.status(404).json({ message: "Producto no encontrado" });
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        console.error("Error al obtener el producto:", error);
+        res.status(500).json({ message: "Error al obtener el producto" });
+    }
+    };
+
 const deleteProductController = async (req, res) => {
   const { id } = req.params;
   const user_id = req.user.id;
@@ -125,4 +140,5 @@ export const productController = {
   getProductsController,
   getProductsFilteredController,
   deleteProductController,
+  getProductByIdController,
 };
