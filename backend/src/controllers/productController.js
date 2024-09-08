@@ -1,8 +1,9 @@
 import { productModel } from "../model/productModel.js";
+import jwt from "jsonwebtoken";
 
 const createProductController = async (req, res) => {
   const { category, name, description, image, price } = req.body;
-  const user_id = req.user.id; 
+  const user_id = req.user.id;
 
   if (!category || !name || !description || !image || !price) {
     return res.status(400).json({ message: "Todos los campos son requeridos" });
@@ -76,19 +77,66 @@ const getProductsFilteredController = async (req, res) => {
   }
 };
 
-const getProductByIdController = async (req, res) => { 
-    const { id } = req.params;
-    try {
-        const product = await productModel.getProductById(id);
-        if (!product) {
-        return res.status(404).json({ message: "Producto no encontrado" });
-        }
-        res.status(200).json(product);
-    } catch (error) {
-        console.error("Error al obtener el producto:", error);
-        res.status(500).json({ message: "Error al obtener el producto" });
+const getProductByIdController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await productModel.getProductById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Producto no encontrado" });
     }
-    };
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("Error al obtener el producto:", error);
+    res.status(500).json({ message: "Error al obtener el producto" });
+  }
+};
+
+const updateProductController = async (req, res) => {
+  const { id } = req.params;
+  const user_id = req.user.id;
+
+  if (!user_id) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Usuario no autenticado" });
+  }
+
+  try {
+    const product = await productModel.getProductById(id);
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Producto no encontrado" });
+    }
+
+    if (product.user_id !== user_id) {
+      return res.status(401).json({
+        success: false,
+        message: "No tienes permiso para actualizar este producto",
+      });
+    }
+
+    const { category, name, description, image, price } = req.body;
+
+    if (!category || !name || !description || !image || !price) {
+      return res
+        .status(400)
+        .json({ message: "Todos los campos son requeridos" });
+    }
+
+ const result = await productModel.updateProduct({ id, category, name, description, image, price });
+
+    if (result.success) {
+      return res.status(200).json({ success: true, message: result.message, data: result.data });
+    } else {
+      return res.status(400).json({ success: false, message: result.message });
+    }
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+    return res.status(500).json({ success: false, message: 'Error al actualizar el producto' });
+  }
+};
 
 const deleteProductController = async (req, res) => {
   const { id } = req.params;
@@ -108,12 +156,10 @@ const deleteProductController = async (req, res) => {
     }
 
     if (product.user_id !== user_id) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "No tienes permiso para borrar este producto",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "No tienes permiso para borrar este producto",
+      });
     }
 
     const result = await productModel.deleteProduct(id);
@@ -141,4 +187,5 @@ export const productController = {
   getProductsFilteredController,
   deleteProductController,
   getProductByIdController,
+  updateProductController,
 };

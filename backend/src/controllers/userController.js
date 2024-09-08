@@ -136,7 +136,7 @@ export const updateUserController = async (req, res) => {
   }
 
   try {
-  const my_user = await getUserByEmail(user_email);
+ 
   const { id } = req.params;
   const { username, phone_number, password } = req.body;
 
@@ -162,7 +162,7 @@ export const updateUserController = async (req, res) => {
 
 export const getUserProfileController = async (req, res) => {
   try {
-    const userEmail = req.user.email; // Ahora estamos usando el correo electrónico
+    const userEmail = req.user.email; 
     const user = await getUserByEmail(userEmail)
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });

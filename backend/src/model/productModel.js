@@ -97,22 +97,25 @@ const updateProduct = async (product) => {
 
   const query = `
           UPDATE products
-          SET name = $1, description = $2, price = $3, category = $4
-          WHERE id = $5
+          SET name = $2, description = $3, category = $4, image = $5, price = $6
+          WHERE id = $1
           RETURNING *
         `;
 
-  const values = [id, category, name, description, image, price];
+  const values = [id, name, description, category, image, price];
 
   try {
     const result = await pool.query(query, values);
-    if (result.rowCount > 0) return { success: true, data: result.rows[0] };
+    if (result.rowCount > 0) {
+      return { success: true, message: "Producto actualizado con éxito", data: result.rows[0] };
+    } else {
+      return { success: false, message: "No se encontró el producto para actualizar" };
+    }
   } catch (error) {
-    console.error("Error al crear el proyecto:", error);
-    return { success: false, message: "Error al crear el proyecto" };
+    console.error("Error al actualizar el producto:", error);
+    return { success: false, message: "Error al actualizar el producto" };
   }
 };
-
 const deleteProduct = async (id) => {
   const query = `
           DELETE FROM products
