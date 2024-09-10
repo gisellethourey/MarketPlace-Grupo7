@@ -31,3 +31,27 @@ export const getUserByEmail = async (email) => {
     return { success: false, message: 'Error al obtener el usuario' };
   }
 };
+
+export const deleteUser = async (id) => {
+  const query = `DELETE FROM users WHERE id = $1`;
+  const values = [id];
+  
+    const result = await pool.query(query, values);
+    console.log('Error al eliminar el usuario:', error);
+    return result;
+  
+  };
+
+  export const updateUser = async (id, username, phone_number, password) => {
+    try {
+      const sql = "UPDATE users SET username = $1, phone_number = $2, password = $3 WHERE id = $4 RETURNING *";
+      const values = [username, phone_number, password, id];
+      const results = await pool.query(sql, values);
+      if (results.rowCount > 0) {
+        console.log('[UPDATE_USER]', results.rows[0]);
+        return results.rows;
+      }
+    } catch (error) {
+      console.log('error en archivo query.js', error.code, error.message);
+    }
+  }

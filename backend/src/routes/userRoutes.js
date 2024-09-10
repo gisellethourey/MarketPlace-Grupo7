@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUserController, loginUserController, logoutUserController } from '../controllers/userController.js';
+import { createUserController, loginUserController, logoutUserController, deleteUserController, updateUserController, getUserProfileController } from '../controllers/userController.js';
 import authenticateToken from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -14,8 +14,12 @@ router.post('/login', loginUserController);
 router.post('/logout', logoutUserController);
 
 // Ruta protegida
-router.get('/profile', authenticateToken, (req, res) => {
-  res.json({ message: 'Esta es una ruta protegida' });
-});
+router.get('/profile', authenticateToken, getUserProfileController);
+
+// Ruta para delete
+router.delete('/user/:id', deleteUserController);
+
+// Ruta para actualizar usuario
+router.put('/user/:id',authenticateToken, updateUserController);
 
 export default router;
