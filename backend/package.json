@@ -18,7 +18,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "jest "
+  "test": "set NODE_OPTIONS=--experimental-vm-modules && jest --forceExit --detectOpenHandles --watchAll"
   },
   "keywords": [],
   "author": "",
