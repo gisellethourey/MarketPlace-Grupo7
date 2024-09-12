@@ -7,6 +7,10 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20)
 );
+ALTER TABLE users
+ADD CONSTRAINT check_age_18_or_more
+CHECK (date_of_birth <= CURRENT_DATE - INTERVAL '18 years');
+
 
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
