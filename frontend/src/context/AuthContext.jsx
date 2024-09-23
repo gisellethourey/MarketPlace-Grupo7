@@ -9,17 +9,19 @@ export const AuthProvider = ({ children }) => {
   });
 
   const register = async (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+    const { token, userId } = userData; 
+    localStorage.setItem('user', JSON.stringify({ token, userId }));
+    setUser({ token, userId });
   };
 
-  const login = async (token) => {
+  const login = async (userData) => {
     return new Promise((resolve, reject) => {
       try {
-        if (token) {
-          const userData = { token };
-          localStorage.setItem('user', JSON.stringify(userData));
-          setUser(userData);
+        const { token, userId } = userData;
+        if (token && userId) {
+          const loggedInUser = { token, userId };
+          localStorage.setItem('user', JSON.stringify(loggedInUser));
+          setUser(loggedInUser);
           resolve();
         } else {
           throw new Error('Credenciales inválidas');

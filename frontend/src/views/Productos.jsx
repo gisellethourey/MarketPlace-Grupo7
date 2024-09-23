@@ -5,9 +5,11 @@ import NavBar from "../components/NavBar";
 import FavoriteSidebar from '../components/FavoriteSidebar';
 import ProductDetailSidebar from '../components/ProductDetailSideBar';
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext";
 
 const Productos = () => {
   const { products, error, fetchProducts } = useContext(ProductsContext);
+  const { user } = useAuth();
   const [token, setToken] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favorites, setFavorites] = useState([]);
@@ -27,17 +29,42 @@ const Productos = () => {
     setFavorites(storedFavorites);
   }, [fetchProducts]);
 
-    // Función para manejar el clic en un producto
-    const handleProductClick = (product) => {
-      setSelectedProduct(product);
-      setIsDetailSidebarOpen(true);
-    };
-  
-    // Función para cerrar el sidebar de detalles del producto
-    const handleDetailSidebarClose = () => {
-      setIsDetailSidebarOpen(false);
-      setSelectedProduct(null);
-    };
+  // Función para manejar el clic en un producto
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsDetailSidebarOpen(true);
+  };
+
+  // Función para cerrar el sidebar de detalles del producto
+  const handleDetailSidebarClose = () => {
+    setIsDetailSidebarOpen(false);
+    setSelectedProduct(null);
+  };
+
+  // Función para manejar la adición al carrito de compras (corregida)
+  const handleAddToCart = async (product) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/carrito`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          productId: product.id,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Producto agregado al carrito");
+      } else {
+        console.error("Error al agregar producto al carrito");
+      }
+    } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
+    }
+  };
 
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
@@ -55,6 +82,7 @@ const Productos = () => {
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
         product={selectedProduct}
+        handleAddToCart={handleAddToCart} 
       />
       <h1 className="text-3xl font-bold my-8">Productos</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
@@ -63,7 +91,8 @@ const Productos = () => {
             <ProductItem
               key={product.id}
               product={product}
-              onClick={() => setSelectedProduct(product)}
+              userId={user?.id} 
+              onClick={() => handleProductClick(product)}
             />
           ))
         ) : (

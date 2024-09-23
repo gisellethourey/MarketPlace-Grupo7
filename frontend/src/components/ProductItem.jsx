@@ -7,10 +7,20 @@ const ProductItem = ({ product, onToggleFavorite, onClick, userId }) => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
+      if (!userId) {
+        console.error('El userId está indefinido');
+        return;
+      }
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/favorites?userId=${userId}`);
         const favorites = await response.json();
-        setIsFavorite(favorites.includes(product.id));
+
+        // Verifica si 'favorites' es un array antes de usar includes
+        if (Array.isArray(favorites)) {
+          setIsFavorite(favorites.some(fav => fav.product_id === product.id)); 
+        } else {
+          console.error('Favoritos no es un array:', favorites);
+        }
       } catch (error) {
         console.error('Error al obtener favoritos:', error);
       }

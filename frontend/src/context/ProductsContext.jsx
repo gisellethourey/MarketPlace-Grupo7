@@ -4,6 +4,7 @@ export const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]); 
   const [error, setError] = useState(null);
 
   // Obtener todos los productos
@@ -123,17 +124,44 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
+  // Función para agregar un producto al carrito
+  const addToCart = async (productId, token) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/carrito`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productId, quantity: 1 }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setCart([...cart, data.cartItem]); 
+      } else {
+        setError('Error al agregar al carrito');
+      }
+    } catch (error) {
+      setError('Error al conectar con el servidor');
+      console.error('Error al conectar con el servidor:', error);
+    }
+  };
+
   return (
     <ProductsContext.Provider value={{
       products,
+      cart, 
       error,
       fetchProducts,
       fetchProductById,
       createProduct,
       updateProduct,
       deleteProduct,
+      addToCart
     }}>
       {children}
     </ProductsContext.Provider>
   );
 };
+

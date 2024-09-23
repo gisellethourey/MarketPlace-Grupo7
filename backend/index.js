@@ -4,6 +4,7 @@ import cors from 'cors';
 import db from './src/config/db.js'; 
 import userRoutes from './src/routes/userRoutes.js';
 import productRoutes from './src/routes/productRoutes.js';
+import cartRoutes from './src/routes/cartRoutes.js'; 
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 // Rutas
 app.use('/', userRoutes); 
 app.use('/', productRoutes);
+app.use('/', cartRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
