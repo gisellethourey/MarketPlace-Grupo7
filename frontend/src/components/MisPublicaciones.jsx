@@ -25,13 +25,15 @@ const MisPublicaciones = () => {
   const publicaciones = Array.isArray(products) ? products : [];
 
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
       {publicaciones.length > 0 ? (
         publicaciones.map((publicacion) => (
-          <div key={publicacion.id} className="card">
-            <h1 className="text-lg md:text-sm">{publicacion.name}</h1>
-            <p className="text-sm md:text-xs pb-2">{publicacion.description}</p>
-            <img src={publicacion.image} alt={publicacion.name} className="w-full sm:w-48 md:w-64 lg:w-80 object-cover" />
+          <div key={publicacion.id} className="card bg-white shadow-md rounded-lg overflow-hidden">
+            <img src={publicacion.image} alt={publicacion.name} className="w-full h-[70%] object-cover" />
+            <div className="p-4">
+              <h1 className="text-lg font-bold">{publicacion.name}</h1>
+              <p className="text-sm text-gray-600">{publicacion.description}</p>
+            </div>
           </div>
         ))
       ) : (
