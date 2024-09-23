@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ProfilePage from "../components/ProfilePage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import MisPublicaciones from "../components/MisPublicaciones";
@@ -9,20 +8,17 @@ import Footer from "../components/Footer";
 
 const Perfil = () => {
   return (
-    <div className="flex flex-col justify-around">
+    <div className="flex flex-col justify-around min-h-screen">
       <NavBar />
-     
-      <main className="container mx-auto p-4 mt-4">
-        <div className="flex flex-row">
-          <section className="bg-white p-5 mb-4 w-full md:w-1/2">
-           
-            <img src="/Perfil.png" alt="Logo grupo 7" className="h-200 w-200" />
+      <main className="container bg-slate-300 rounded-lg mx-auto p-4 mt-4 flex-grow">
+        <div className="flex flex-col bg-white md:flex-row">
+          <section className=" p-5 mb-4 w-full md:w-1/2 flex justify-center items-center">
+            <img src="/Perfil.png" alt="Logo grupo 7" className="h-[100%] w-48 rounded-full" />
           </section>
           <section className="bg-white p-4 w-full md:w-1/2">
-            
             <form>
-              <div className="mb-4 flex flex-row">
-                <FontAwesomeIcon icon={faUser} className="mt-3 mr-2" />
+              <div className="mb-4 flex items-center">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
                 <input
                   type="text"
                   id="nombre"
@@ -30,8 +26,8 @@ const Perfil = () => {
                   placeholder="Ingrese su nombre"
                 />
               </div>
-              <div className="mb-4 flex flex-row">
-                <FontAwesomeIcon icon={faEnvelope} className="mt-3 mr-2" />
+              <div className="mb-4 flex items-center">
+                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
                 <input
                   type="email"
                   id="email"
@@ -39,8 +35,8 @@ const Perfil = () => {
                   placeholder="Ingrese su email"
                 />
               </div>
-              <div className="mb-4 flex flex-row">
-                <FontAwesomeIcon icon={faPhone} className="mt-3 mr-2" />
+              <div className="mb-4 flex items-center">
+                <FontAwesomeIcon icon={faPhone} className="mr-2" />
                 <input
                   type="tel"
                   id="telefono"
@@ -49,26 +45,24 @@ const Perfil = () => {
                 />
               </div>
             </form>
-            
             <div className="mt-4">
-              <Link to="/crear-publicacion">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded">Crear Producto</button>
-              </Link>
             </div>
           </section>
         </div>
+              <Link to="/crear-publicacion">
+                <button className="bg-blue-500 text-white px-4 py-2 mt-5 rounded">Crear Producto</button>
+              </Link>
         <section className="p-4 pt-10 mb-5">
           <h2 className="mb-5 text-2xl">Mis Publicaciones</h2>
           <article className="flex flex-wrap justify-start gap-4">
             <MisPublicaciones />
-            
           </article>
         </section>
       </main>
-
       <Footer />
     </div>
   );
 };
 
 export default Perfil;
+
