@@ -6,7 +6,7 @@ const ProductDetailSideBar = ({ isOpen, onClose, product }) => {
 
   return (
     <SideBar isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-2xl mb-4">Favoritos</h2>
+      <h2 className="text-2xl mb-4">Productos </h2>
       <div className="overflow-y-auto h-5/6">
         <div className="p-4 bg flex flex-col">
           <h2 className="text-2xl mb-4">{product.name}</h2>
