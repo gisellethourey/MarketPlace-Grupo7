@@ -1,9 +1,14 @@
 import React from "react";
-import SideBar from "./SideBarLeft";
+import SideBar from "./SideBarRight";
+import { useCart } from '../context/CartContext';
 
 const ProductDetailSideBar = ({ isOpen, onClose, product }) => {
   if (!product) return null;
+  const { addToCart } = useCart();
 
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
   return (
     <SideBar isOpen={isOpen} onClose={onClose}>
       <h2 className="text-2xl mb-4">Productos </h2>
@@ -19,12 +24,13 @@ const ProductDetailSideBar = ({ isOpen, onClose, product }) => {
           />
           <p className="mb-4">Precio: ${product.price}</p>
           <div className="flex flex-row justify-between">
-            <button
-              type="submit"
-              className="w-1/2 rounded-full bg-red-600 p-3 text-white transition hover:bg-opacity-90"
-            >
-              Agregar al Carrito
-            </button>
+          <button
+        type="submit"
+        className="w-1/2 rounded-full bg-red-600 p-3 text-white transition hover:bg-opacity-90"
+        onClick={handleAddToCart}
+      >
+        Agregar al Carrito
+      </button>
             <button
               type="submit"
               className="w-1/2 rounded-full bg-red-600 p-3 text-white transition hover:bg-opacity-90"

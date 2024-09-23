@@ -2,15 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import ProductItem from "../components/ProductItem";
 import NavBar from "../components/NavBar";
-import FavoriteSidebar from '../components/FavoriteSidebar';
 import ProductDetailSidebar from '../components/ProductDetailSideBar';
 import Footer from "../components/Footer";
 
 const Productos = () => {
   const { products, error, fetchProducts } = useContext(ProductsContext);
   const [token, setToken] = useState('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [favorites, setFavorites] = useState([]);
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -20,24 +17,19 @@ const Productos = () => {
 
     if (storedToken) {
       setToken(storedToken);
-      fetchProducts(storedToken); // Fetch de productos con el token JWT
+      fetchProducts(storedToken);
     }
-
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(storedFavorites);
   }, [fetchProducts]);
 
-    // Función para manejar el clic en un producto
-    const handleProductClick = (product) => {
-      setSelectedProduct(product);
-      setIsDetailSidebarOpen(true);
-    };
-  
-    // Función para cerrar el sidebar de detalles del producto
-    const handleDetailSidebarClose = () => {
-      setIsDetailSidebarOpen(false);
-      setSelectedProduct(null);
-    };
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsDetailSidebarOpen(true);
+  };
+
+  const handleDetailSidebarClose = () => {
+    setIsDetailSidebarOpen(false);
+    setSelectedProduct(null);
+  };
 
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
@@ -45,12 +37,8 @@ const Productos = () => {
 
   return (
     <div className="container mx-auto px-4 bg-customColor -z-10">
-      <NavBar onFavoriteClick={() => setIsSidebarOpen(true)} />
-      <FavoriteSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        favorites={favorites}
-      />
+      <NavBar />
+
       <ProductDetailSidebar
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
@@ -63,7 +51,7 @@ const Productos = () => {
             <ProductItem
               key={product.id}
               product={product}
-              onClick={() => setSelectedProduct(product)}
+              onClick={() => handleProductClick(product)}
             />
           ))
         ) : (

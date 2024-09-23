@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
-import SideBar from './SideBarRight'; 
+import SideBar from './SideBarRight'; // Importa el componente SideBar
+import { useCart } from '../context/CartContext'; // Importa el contexto del carrito
 
-const NavBar = ({ onFavoriteClick }) => {
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+const NavBar = () => {
+  const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
+  const { cartItems } = useCart(); // Obtén los elementos del carrito desde el contexto
 
-  const toggleSideBar = () => {
-    setIsSideBarOpen(!isSideBarOpen);
+  const toggleCartSideBar = () => {
+    setIsCartSideBarOpen(!isCartSideBarOpen);
   };
 
   return (
@@ -33,7 +35,7 @@ const NavBar = ({ onFavoriteClick }) => {
             <Link to={"/productos"}>
               <p className="text-lg font-poppins mb-2">Productos</p>
             </Link>
-            <p className="text-lg font-poppins mb-2 cursor-pointer" onClick={onFavoriteClick}>Favorito</p>
+            <p className="text-lg font-poppins mb-2 cursor-pointer" >Favorito</p>
           </div>
         </div>
         <div className="flex flex-col gap-5 items-center">
@@ -51,15 +53,27 @@ const NavBar = ({ onFavoriteClick }) => {
           </div>
           <div className="w-1/2">
             <div className="w-full flex justify-center items-center size-5">
-              <FontAwesomeIcon icon={faCartShopping} onClick={toggleSideBar} />
+              <FontAwesomeIcon icon={faCartShopping}  />
             </div>
           </div>
         </div>
-      </div>
-      <SideBar isOpen={isSideBarOpen} onClose={toggleSideBar}>
-       
-        <p>Contenido del carrito</p>
+        <SideBar isOpen={isCartSideBarOpen} onClose={toggleCartSideBar}>
+        <h2>Carrito</h2>
+        {cartItems.length > 0 ? (
+          <ul>
+            {cartItems.map((item, index) => (
+              <li key={index}>
+                <p>{item.name}</p>
+                <p>{item.price}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>El carrito está vacío</p>
+        )}
       </SideBar>
+      </div>
+      
     </div>
   );
 };
