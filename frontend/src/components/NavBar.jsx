@@ -31,6 +31,8 @@ const NavBar = ({ onGoToCart }) => {
     openCartSideBar();
     if (typeof onGoToCart === 'function') {
       onGoToCart();
+    }else{
+      console.log("onGoToCart no es una función");
     }
   };
 

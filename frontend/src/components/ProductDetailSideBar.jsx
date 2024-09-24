@@ -10,7 +10,12 @@ const ProductDetailSideBar = ({ isOpen, onClose, product, onGoToCart }) => {
     addToCart(product);
   };
 
-  
+  const handleGoToCartClick = () => {
+    
+    if (typeof onGoToCart === 'function') {
+      onGoToCart();
+    }
+  };
 
   return (
     <SideBar isOpen={isOpen} onClose={onClose}>
@@ -34,14 +39,14 @@ const ProductDetailSideBar = ({ isOpen, onClose, product, onGoToCart }) => {
             >
               Agregar al Carrito
             </button>
-            <button
+            {/* <button
               type="submit"
               className="w-1/2 rounded-full bg-red-600 p-3 text-white transition hover:bg-opacity-90"
-             
+              onClick={handleGoToCartClick}
             >
               Ir a pagar
-            </button>
-          </div>
+            </button>*/}
+          </div> 
         </div>
       </div>
     </SideBar>

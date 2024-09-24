@@ -10,6 +10,7 @@ const Productos = () => {
   const [token, setToken] = useState('');
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -31,18 +32,24 @@ const Productos = () => {
     setSelectedProduct(null);
   };
 
+  const handleGoToCart = () => {
+    setIsDetailSidebarOpen(false);
+    setIsCartSideBarOpen(true);
+  };
+
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
   return (
     <div className="container mx-auto px-4 bg-customColor -z-10">
-      <NavBar />
+      <NavBar onGoToCart={handleGoToCart} />
 
       <ProductDetailSidebar
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
         product={selectedProduct}
+        onGoToCart={handleGoToCart} // Pasar la función de handleGoToCart
       />
       <h1 className="text-3xl font-bold my-8">Productos</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
