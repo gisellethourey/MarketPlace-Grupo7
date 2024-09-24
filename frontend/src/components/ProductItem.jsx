@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-const ProductItem = ({ product, onClick }) => {
+const ProductItem = ({ product, onClick,onLike }) => {
 
 <<<<<<< HEAD
   useEffect(() => {
@@ -58,7 +58,7 @@ const ProductItem = ({ product, onClick }) => {
       onClick={onClick}
     >
       <img
-        className="w-full h-[70%] object-cover rounded-t-lg cursor-pointer"
+        className="w-full h-[60%] object-cover rounded-t-lg cursor-pointer"
         src={product.image}
         alt={product.name}
       />
@@ -74,7 +74,9 @@ const ProductItem = ({ product, onClick }) => {
           <strong>Price:</strong> ${product.price.toLocaleString()}
         </p>
       </div>
-      <FontAwesomeIcon icon={faHeart} />
+      <button onClick={(e) => {
+          e.stopPropagation(); // Evita que el clic se propague al contenedor
+          onLike();}} className="mt-2 p-2 text-white ">❤️</button>
     </div>
   );
 };

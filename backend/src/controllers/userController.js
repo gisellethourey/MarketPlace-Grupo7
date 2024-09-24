@@ -19,10 +19,11 @@ export const createUserController = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await createNewUser({ username, email, password: hashedPassword, phone_number, date_of_birth });
+    const token = jwt.sign({ id: result.data.id, email: result.data.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     return res.status(201).json({
       message: 'Usuario creado exitosamente',
-      user: result.data,
+      token,
     });
   } catch (error) {
     return res.status(500).json({ message: 'Error creando usuario', error: error.message });

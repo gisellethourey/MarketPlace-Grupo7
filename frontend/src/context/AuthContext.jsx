@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
           setUser(loggedInUser);
           resolve();
         } else {
-          throw new Error('Credenciales inválidas');
+          reject('Token no válido');
         }
       } catch (error) {
         reject(error);
