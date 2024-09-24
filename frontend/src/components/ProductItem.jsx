@@ -11,7 +11,7 @@ const ProductItem = ({ product, onClick }) => {
       onClick={onClick}
     >
       <img
-        className="w-full h-[70%] object-cover rounded-t-lg cursor-pointer"
+        className="w-full h-[60%] object-cover rounded-t-lg cursor-pointer"
         src={product.image}
         alt={product.name}
       />

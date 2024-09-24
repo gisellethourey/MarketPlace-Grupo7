@@ -6,16 +6,18 @@ const CartSidebar = () => {
   const [quantities, setQuantities] = useState([]);
 
   useEffect(() => {
-    // Inicializar las cantidades con 1 para cada producto en el carrito
-    setQuantities(cartItems.map(() => 1));
+    // inicializar las cantidades con las cantidades actuales de los productos en el carrito
+    setQuantities(cartItems.map(item => item.quantity));
   }, [cartItems]);
 
+  // controlar las cantidades de los productos
   const handleQuantityChange = (index, value) => {
     const newQuantities = [...quantities];
     newQuantities[index] = isNaN(value) || value < 1 ? 1 : value;
     setQuantities(newQuantities);
   };
 
+  // eliminar productos del carrito
   const handleRemoveItem = (index) => {
     const itemToRemove = cartItems[index];
     removeFromCart(itemToRemove.id);
@@ -23,9 +25,11 @@ const CartSidebar = () => {
     setQuantities(newQuantities);
   };
 
+  // precio total
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item, index) => {
-      return total + item.price * quantities[index];
+      const quantity = quantities[index] || 1; // asegurarse de que la cantidad sea al menos 1
+      return total + item.price * quantity;
     }, 0);
   };
 
@@ -49,7 +53,7 @@ const CartSidebar = () => {
                   className="w-16 p-2 border rounded"
                 />
                 <p className="ml-4 text-lg font-semibold">
-                  ${item.price * quantities[index]}
+                  ${item.price * (quantities[index] || 1)}
                 </p>
                 <button
                   onClick={() => handleRemoveItem(index)}

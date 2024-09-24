@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
-import SideBar from './SideBarRight'; // Importa el componente SideBar
-import CartSidebar from './CartSideBar'; // Importa el componente CartSidebar
-import { useCart } from '../context/CartContext'; // Importa el contexto del carrito
-import ProductDetailSideBar from './ProductDetailSideBar'; // Importa el componente ProductDetailSideBar
+import SideBar from './SideBarRight'; 
+import CartSidebar from './CartSideBar'; 
+import { useCart } from '../context/CartContext'; 
+import ProductDetailSideBar from './ProductDetailSideBar'; 
 
 const NavBar = ({ onGoToCart }) => {
   const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { cartItems } = useCart(); // Obtén los elementos del carrito desde el contexto
 
   const toggleCartSideBar = () => {
     setIsCartSideBarOpen(!isCartSideBarOpen);
