@@ -7,7 +7,7 @@ import CartSidebar from './CartSideBar';
 import { useCart } from '../context/CartContext'; 
 import ProductDetailSideBar from './ProductDetailSideBar'; 
 
-const NavBar = ({ onGoToCart, onSearchChange }) => {
+const NavBar = ({ onGoToCart, onSearchChange, onOpenFavorites }) => {
   const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -30,7 +30,7 @@ const NavBar = ({ onGoToCart, onSearchChange }) => {
     openCartSideBar();
     if (typeof onGoToCart === 'function') {
       onGoToCart();
-    }else{
+    } else {
       console.log("onGoToCart no es una función");
     }
   };
@@ -58,7 +58,7 @@ const NavBar = ({ onGoToCart, onSearchChange }) => {
             <Link to={"/productos"}>
               <p className="text-lg font-poppins mb-2">Productos</p>
             </Link>
-            <p className="text-lg font-poppins mb-2 cursor-pointer">Favorito</p>
+            <p className="text-lg font-poppins mb-2 cursor-pointer" onClick={onOpenFavorites}>Favorito</p>
           </div>
         </div>
         <div className="flex flex-col gap-5 items-center">

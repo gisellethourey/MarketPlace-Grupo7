@@ -40,28 +40,28 @@ const Productos = () => {
     setSelectedProduct(null);
   };
 
-  // const handleGoToCart = () => {
-  //   setIsDetailSidebarOpen(false);
-  //   setIsCartSideBarOpen(true);
-  // };
+  const handleGoToCart = () => {
+    setIsDetailSidebarOpen(false);
+    setIsCartSideBarOpen(true);
+  };
 
-  // const handleLikeProduct = (product) => {
-  //   setFavorites((prevFavorites) => {
-  //     if (prevFavorites.find((fav) => fav.id === product.id)) {
-  //       return prevFavorites.filter((fav) => fav.id !== product.id);
-  //     } else {
-  //       return [...prevFavorites, product];
-  //     }
-  //   });
-  // };
+  const handleLikeProduct = (product) => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.find((fav) => fav.id === product.id)) {
+        return prevFavorites.filter((fav) => fav.id !== product.id);
+      } else {
+        return [...prevFavorites, product];
+      }
+    });
+  };
 
-  // const handleOpenFavorites = () => {
-  //   setIsFavoritesSidebarOpen(true);
-  // };
+  const handleOpenFavorites = () => {
+    setIsFavoritesSidebarOpen(true);
+  };
 
-  // const handleCloseFavorites = () => {
-  //   setIsFavoritesSidebarOpen(false);
-  // };
+  const handleCloseFavorites = () => {
+    setIsFavoritesSidebarOpen(false);
+  };
 
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
@@ -71,25 +71,23 @@ const Productos = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
   return (
     <div className="container mx-auto px-4 bg-customColor -z-10">
-      <NavBar onSearchChange={handleSearchChange} />
+      <NavBar onSearchChange={handleSearchChange} onOpenFavorites={handleOpenFavorites} onGoToCart={handleGoToCart} />
       
-      {/* <FavoritesSidebar
+      <FavoritesSidebar
         isOpen={isFavoritesSidebarOpen}
         onClose={handleCloseFavorites}
         favorites={favorites}
-      /> */}
+      /> 
       <ProductDetailSidebar
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
         product={selectedProduct}
-        // Pasar la función de handleGoToCart
+        onGoToCart={handleGoToCart} // Pasar la función de handleGoToCart
       />
 
       <h1 className="text-3xl font-bold my-8">Productos</h1>
-      {/* <button onClick={handleOpenFavorites} className="mb-4 p-2 bg-blue-500 text-white">Ver Favoritos</button> */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -97,7 +95,7 @@ const Productos = () => {
               key={product.id}
               product={product}
               onClick={() => handleProductClick(product)}
-              // onLike={() => handleLikeProduct(product)}
+              onLike={() => handleLikeProduct(product)}
             />
           ))
         ) : (
