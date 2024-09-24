@@ -58,17 +58,18 @@ const Register = () => {
       });
 
       if (!response.ok) {
-        if (response.status === 400) {
-          throw new Error('Datos inválidos.');
-        } else {
-          throw new Error('Registro fallido. Por favor verifica tus datos e intenta de nuevo.');
-        }
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registro fallido. Por favor verifica tus datos e intenta de nuevo.');
       }
 
       const data = await response.json();
-      await register(data.token); 
-      setError('');
-      navigate('/productos');
+      if (data.token) {
+        await register(data.token); // Asegúrate de que `register` maneje el token correctamente
+        setError('');
+        navigate('/productos');
+      } else {
+        throw new Error('No se recibió el token de autenticación.');
+      }
     } catch (err) {
       setError(err.message);
     }

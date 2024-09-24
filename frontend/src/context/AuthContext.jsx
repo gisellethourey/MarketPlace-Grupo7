@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
           setUser(userData);
           resolve();
         } else {
-          throw new Error('Credenciales inválidas');
+          reject('Token no válido');
         }
       } catch (error) {
         reject(error);

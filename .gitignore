@@ -1,2 +1,4 @@
 market-place/package-lock.json
 frontend/.env
+backend/.env
+frontend/.env
