@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-const ProductItem = ({ product, onClick }) => {
+const ProductItem = ({ product, onClick,onLike }) => {
 
 
   return (
@@ -27,7 +27,9 @@ const ProductItem = ({ product, onClick }) => {
           <strong>Price:</strong> ${product.price.toLocaleString()}
         </p>
       </div>
-      <FontAwesomeIcon icon={faHeart} />
+      <button onClick={(e) => {
+          e.stopPropagation(); // Evita que el clic se propague al contenedor
+          onLike();}} className="mt-2 p-2 text-white ">❤️</button>
     </div>
   );
 };

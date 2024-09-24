@@ -7,7 +7,7 @@ import CartSidebar from './CartSideBar';
 import { useCart } from '../context/CartContext'; 
 import ProductDetailSideBar from './ProductDetailSideBar'; 
 
-const NavBar = ({ onGoToCart }) => {
+const NavBar = ({ onGoToCart, onSearchChange }) => {
   const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -47,6 +47,7 @@ const NavBar = ({ onGoToCart }) => {
               type="text"
               className="block w-full py-2 pl-10 text-sm text-gray-700 bg-customColor border-r-2 border-gray-500 focus:outline-none"
               placeholder="Buscar"
+              onChange={onSearchChange}
             />
             <i className="fa fa-search text-gray-500 mt-2 mx-3" />
           </div>
