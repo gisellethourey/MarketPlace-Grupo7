@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import ProductItem from "../components/ProductItem";
 import NavBar from "../components/NavBar";
-import FavoriteSidebar from '../components/FavoriteSidebar';
 import ProductDetailSidebar from '../components/ProductDetailSideBar';
 import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
@@ -11,8 +10,6 @@ const Productos = () => {
   const { products, error, fetchProducts } = useContext(ProductsContext);
   const { user } = useAuth();
   const [token, setToken] = useState('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [favorites, setFavorites] = useState([]);
   const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -22,24 +19,28 @@ const Productos = () => {
 
     if (storedToken) {
       setToken(storedToken);
-      fetchProducts(storedToken); // Fetch de productos con el token JWT
+      fetchProducts(storedToken);
     }
-
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(storedFavorites);
   }, [fetchProducts]);
 
+<<<<<<< HEAD
   // Función para manejar el clic en un producto
+=======
+>>>>>>> 2e99f3f7255a72c365208acbc699eb71697ed35b
   const handleProductClick = (product) => {
     setSelectedProduct(product);
     setIsDetailSidebarOpen(true);
   };
 
+<<<<<<< HEAD
   // Función para cerrar el sidebar de detalles del producto
+=======
+>>>>>>> 2e99f3f7255a72c365208acbc699eb71697ed35b
   const handleDetailSidebarClose = () => {
     setIsDetailSidebarOpen(false);
     setSelectedProduct(null);
   };
+<<<<<<< HEAD
 
   // Función para manejar la adición al carrito de compras (corregida)
   const handleAddToCart = async (product) => {
@@ -65,6 +66,8 @@ const Productos = () => {
       console.error("Error al conectar con el servidor:", error);
     }
   };
+=======
+>>>>>>> 2e99f3f7255a72c365208acbc699eb71697ed35b
 
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
@@ -72,12 +75,8 @@ const Productos = () => {
 
   return (
     <div className="container mx-auto px-4 bg-customColor -z-10">
-      <NavBar onFavoriteClick={() => setIsSidebarOpen(true)} />
-      <FavoriteSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        favorites={favorites}
-      />
+      <NavBar />
+
       <ProductDetailSidebar
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
@@ -91,7 +90,10 @@ const Productos = () => {
             <ProductItem
               key={product.id}
               product={product}
+<<<<<<< HEAD
               userId={user?.id} 
+=======
+>>>>>>> 2e99f3f7255a72c365208acbc699eb71697ed35b
               onClick={() => handleProductClick(product)}
             />
           ))

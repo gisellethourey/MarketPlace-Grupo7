@@ -4,7 +4,7 @@ import {
   getProductById,
   getProductsByCategory,
   updateExistingProduct,
-  deleteExistingProduct,addFavorite, removeFavorite
+  deleteExistingProduct,addFavorite, removeFavorite, getFavorites
 } from '../model/productModel.js';
 
 export const addFavoriteController = async (req, res) => {
