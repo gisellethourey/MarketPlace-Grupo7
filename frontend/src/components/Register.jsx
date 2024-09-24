@@ -66,7 +66,7 @@ const Register = () => {
       }
 
       const data = await response.json();
-      await register(data); 
+      await register(data.token); 
       setError('');
       navigate('/productos');
     } catch (err) {
