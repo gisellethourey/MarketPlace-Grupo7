@@ -3,14 +3,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 import SideBar from './SideBarRight'; // Importa el componente SideBar
+import CartSidebar from './CartSideBar'; // Importa el componente CartSidebar
 import { useCart } from '../context/CartContext'; // Importa el contexto del carrito
+import ProductDetailSideBar from './ProductDetailSideBar'; // Importa el componente ProductDetailSideBar
 
-const NavBar = () => {
+const NavBar = ({ onGoToCart }) => {
   const [isCartSideBarOpen, setIsCartSideBarOpen] = useState(false);
+  const [isDetailSidebarOpen, setIsDetailSidebarOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const { cartItems } = useCart(); // Obtén los elementos del carrito desde el contexto
 
   const toggleCartSideBar = () => {
     setIsCartSideBarOpen(!isCartSideBarOpen);
+  };
+
+  const openCartSideBar = () => {
+    setIsCartSideBarOpen(true);
+  };
+
+  const closeDetailSidebar = () => {
+    setIsDetailSidebarOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleGoToCart = () => {
+    closeDetailSidebar();
+    openCartSideBar();
+    if (typeof onGoToCart === 'function') {
+      onGoToCart();
+    }
   };
 
   return (
@@ -35,7 +56,7 @@ const NavBar = () => {
             <Link to={"/productos"}>
               <p className="text-lg font-poppins mb-2">Productos</p>
             </Link>
-            <p className="text-lg font-poppins mb-2 cursor-pointer" >Favorito</p>
+            <p className="text-lg font-poppins mb-2 cursor-pointer">Favorito</p>
           </div>
         </div>
         <div className="flex flex-col gap-5 items-center">
@@ -47,33 +68,25 @@ const NavBar = () => {
                   alt="Perfil"
                   className="h-8 w-8 rounded-full"
                 />
-                
               </div>
             </Link>
           </div>
           <div className="w-1/2">
             <div className="w-full flex justify-center items-center size-5">
-              <FontAwesomeIcon icon={faCartShopping}  />
+              <FontAwesomeIcon icon={faCartShopping} onClick={toggleCartSideBar} className="cursor-pointer" />
             </div>
           </div>
         </div>
         <SideBar isOpen={isCartSideBarOpen} onClose={toggleCartSideBar}>
-        <h2>Carrito</h2>
-        {cartItems.length > 0 ? (
-          <ul>
-            {cartItems.map((item, index) => (
-              <li key={index}>
-                <p>{item.name}</p>
-                <p>{item.price}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>El carrito está vacío</p>
-        )}
-      </SideBar>
+          <CartSidebar />
+        </SideBar>
       </div>
-      
+      <ProductDetailSideBar
+        isOpen={isDetailSidebarOpen}
+        onClose={closeDetailSidebar}
+        product={selectedProduct}
+        onGoToCart={handleGoToCart} // Pasar la función de handleGoToCart
+      />
     </div>
   );
 };
