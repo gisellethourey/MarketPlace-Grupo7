@@ -62,6 +62,18 @@ const createTables = async () => {
       );
     `);
 
+    //Crear tabla de carrito
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS cart (
+      id SERIAL PRIMARY KEY, 
+        user_id INTEGER,
+        products_id INTEGER,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (products_id) REFERENCES products(id) ON DELETE CASCADE,
+      UNIQUE(user_id, products_id)
+      );
+    `);
+
     console.log('Tables created successfully');
   } catch (error) {
     console.error('Error creating tables:', error);
