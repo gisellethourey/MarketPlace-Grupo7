@@ -4,7 +4,8 @@ import {
   getProductById,
   getProductsByCategory,
   updateExistingProduct,
-  deleteExistingProduct,addFavorite, removeFavorite, getFavorites
+  deleteExistingProduct,addFavorite, removeFavorite, getFavorites,
+  getUserProducts
 } from '../model/productModel.js';
 
 export const addFavoriteController = async (req, res) => {
@@ -38,7 +39,8 @@ export const getFavoritesController = async (req, res) => {
 
 // Crear un nuevo producto
 export const createProductController = async (req, res) => {
-  const { category_id, name, description, image, price, user_id } = req.body;
+  const { category_id, name, description, image, price} = req.body;
+  const user_id = req.user.id; 
 
   try {
     const result = await createNewProduct({ category_id, name, description, image, price, user_id });
@@ -131,6 +133,26 @@ export const getProductsFilteredController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: 'Error obteniendo productos por categoría',
+      error: error.message,
+    });
+  }
+};
+
+// Obtener las publicaciones del usuario 
+export const getUserProductsController = async (req, res) => {
+  const user_id = req.user.id; 
+
+  try {
+    const result = await getUserProducts(user_id);
+    if (result.success) {
+      return res.status(200).json({ products: result.data });
+    } else {
+      return res.status(404).json({ message: 'No se encontraron productos para este usuario' });
+    }
+  } catch (error) {
+    console.error('Error al obtener los productos del usuario:', error);
+    return res.status(500).json({
+      message: 'Error obteniendo las publicaciones del usuario',
       error: error.message,
     });
   }

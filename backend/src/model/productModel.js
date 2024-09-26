@@ -56,6 +56,19 @@ export const getProductsByCategory = async (category) => {
   }
 };
 
+// Obtener productos del usuario autenticado
+export const getUserProducts = async (user_id) => {
+  const query = 'SELECT * FROM products WHERE user_id = $1;';
+  try {
+    const result = await pool.query(query, [user_id]);
+    return { success: true, data: result.rows };
+  } catch (error) {
+    console.error('Error obteniendo productos del usuario:', error);
+    return { success: false, message: 'Error obteniendo productos del usuario' };
+  }
+};
+
+
 // Actualizar un producto
 export const updateExistingProduct = async (id, productData) => {
   const { category_id, name, description, image, price, user_id } = productData;

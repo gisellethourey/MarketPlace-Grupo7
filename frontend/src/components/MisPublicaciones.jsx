@@ -1,24 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
+import { useAuth } from '../context/AuthContext';
 
 const MisPublicaciones = () => {
-  const { products, error, fetchProducts } = useContext(ProductsContext);
+  const { products, error, fetchUserProducts} = useContext(ProductsContext);
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        await fetchProducts();
-      } catch (error) {
-        console.error('Error al obtener productos:', error);
-      } finally {
-        setLoading(false);
+    const getUserProducts = async () => {
+      if (user && user.token) { 
+        try {
+          await fetchUserProducts(user.token); 
+        } catch (error) {
+          console.error('Error al obtener las publicaciones del usuario:', error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
-    getProducts();
-  }, [fetchProducts]);
-
+    getUserProducts();
+  }, [fetchUserProducts, user]);
   if (loading) return <p>Cargando...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
 

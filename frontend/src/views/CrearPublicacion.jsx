@@ -42,8 +42,7 @@ const CrearPublicacion = () => {
       name,
       description,
       image,
-      price,
-      user_id: user.id,
+      price
     };
   
     try {
