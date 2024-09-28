@@ -33,6 +33,8 @@ const MisPublicaciones = () => {
   const handleEditClick = (product) => {
     setEditMode(product.id);
     setUpdatedProduct({ ...product });
+    console.log('Producto seleccionado para editar:', product);
+    console.log('Producto actualizado en el estado:', updatedProduct);
   };
 
    // Actualización del producto
@@ -42,22 +44,21 @@ const MisPublicaciones = () => {
         const updatedFields = { 
           name: updatedProduct.name, 
           description: updatedProduct.description, 
-          price: updatedProduct.price 
+          price: updatedProduct.price,
+          category_id: updatedProduct.category_id, 
+          image: updatedProduct.image
         };
-        
-        await updateProduct(id, updatedFields, user.token);
-  
+        await updateProduct(id, updatedFields, user.token); 
         const updatedProducts = products.map((product) =>
           product.id === id ? { ...product, ...updatedFields } : product
         );
-  
         setProducts(updatedProducts); 
         setEditMode(null); 
       } else {
         console.error("Por favor, completa todos los campos antes de guardar.");
       }
     } catch (error) {
-      console.error('Error al actualizar producto:', error);
+      console.error('Error al actualizar el producto:', error);
     }
   };
   
@@ -106,6 +107,13 @@ const MisPublicaciones = () => {
                     className="w-full mt-2 p-2 border"
                     placeholder="Precio"
                   />
+                   <input
+                  type="text"
+                  value={updatedProduct.image} 
+                  onChange={(e) => setUpdatedProduct({ ...updatedProduct, image: e.target.value })}
+                   className="w-full mt-2 p-2 border"
+                  placeholder="URL de la imagen"
+                  />
                   <button
                     onClick={() => handleUpdateProduct(publicacion.id)}
                     className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
@@ -117,7 +125,7 @@ const MisPublicaciones = () => {
                 <>
                   <h1 className="text-lg font-bold">{publicacion.name}</h1>
                   <p className="text-sm text-gray-600">{publicacion.description}</p>
-                  <p className="text-sm text-gray-600 font-bold">Precio: ${publicacion.price}</p>
+                  <p className="text-sm text-gray-600 font-bold">Price: ${publicacion.price}</p>
                 </>
               )}
 

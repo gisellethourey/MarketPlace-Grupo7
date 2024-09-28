@@ -151,6 +151,7 @@ const fetchUserProducts = async (token) => {
   return (
     <ProductsContext.Provider value={{
       products,
+      setProducts,
       error,
       fetchProducts,
       fetchProductById,

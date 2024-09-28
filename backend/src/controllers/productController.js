@@ -161,10 +161,10 @@ export const getUserProductsController = async (req, res) => {
 // Actualizar un producto
 export const updateProductController = async (req, res) => {
   const { id } = req.params;
-  const productData = req.body;
+  const { category_id, name, description, image, price } = req.body;
 
   try {
-    const result = await updateExistingProduct(id, productData);
+    const result = await updateExistingProduct(id, { category_id, name, description, image, price });
     return res.status(200).json({
       message: 'Producto actualizado exitosamente',
       product: result.data,

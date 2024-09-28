@@ -71,13 +71,13 @@ export const getUserProducts = async (user_id) => {
 
 // Actualizar un producto
 export const updateExistingProduct = async (id, productData) => {
-  const { category_id, name, description, image, price, user_id } = productData;
+  const { category_id, name, description, image, price } = productData;
   const query = `
     UPDATE products
-    SET category_id = $1, name = $2, description = $3, image = $4, price = $5, user_id = $6
-    WHERE id = $7 RETURNING *;
+    SET category_id = $1, name = $2, description = $3, image = $4, price = $5
+    WHERE id = $6 RETURNING *;
   `;
-  const values = [category_id, name, description, image, price, user_id, id];
+  const values = [category_id, name, description, image, price, id];
   try {
     const result = await pool.query(query, values);
     return { success: true, data: result.rows[0] };
