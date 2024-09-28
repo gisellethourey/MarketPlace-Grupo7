@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
 
-const ProductItem = ({ product, onClick,onLike }) => {
+const ProductItem = ({ product, onClick, onLike }) => {
+  const [isLiked, setIsLiked] = useState(false);
 
+  const handleLikeClick = (e) => {
+    e.stopPropagation();
+    setIsLiked(!isLiked);
+    onLike();
+  };
 
   return (
     <div
-      className="bg-cardColor border border-gray-300 rounded-lg shadow-md my-3 p-4  "
+      className="bg-cardColor border border-gray-300 rounded-lg shadow-md my-3 p-4"
       onClick={onClick}
     >
       <img
@@ -27,9 +31,12 @@ const ProductItem = ({ product, onClick,onLike }) => {
           <strong>Price:</strong> ${product.price.toLocaleString()}
         </p>
       </div>
-      <button onClick={(e) => {
-          e.stopPropagation(); // Evita que el clic se propague al contenedor
-          onLike();}} className="mt-2 p-2 text-white ">❤️</button>
+      <button
+        onClick={handleLikeClick}
+        className="mt-2 p-2 text-white"
+      >
+        {isLiked ? '❤️' : '🤍'}
+      </button>
     </div>
   );
 };
