@@ -123,15 +123,42 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
+  // Obtener los productos del usuario autenticado
+const fetchUserProducts = async (token) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/my-products`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      setProducts(data.products || []);
+    } else {
+      setError('Error al obtener las publicaciones del usuario');
+    }
+  } catch (error) {
+    setError('Error al conectar con el servidor');
+    console.error('Error al conectar con el servidor:', error);
+  }
+};
+
+  
+
   return (
     <ProductsContext.Provider value={{
       products,
+      setProducts,
       error,
       fetchProducts,
       fetchProductById,
       createProduct,
       updateProduct,
       deleteProduct,
+      fetchUserProducts
     }}>
       {children}
     </ProductsContext.Provider>

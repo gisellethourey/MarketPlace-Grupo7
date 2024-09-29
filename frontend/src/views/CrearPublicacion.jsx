@@ -42,8 +42,7 @@ const CrearPublicacion = () => {
       name,
       description,
       image,
-      price,
-      user_id: user.id,
+      price
     };
   
     try {
@@ -59,7 +58,6 @@ const CrearPublicacion = () => {
     <>
     <NavBar onFavoriteClick={() => setIsSidebarOpen(true)} />
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
-      
       <h1 className="text-2xl font-bold mb-6">Crear Producto</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit}>
@@ -120,7 +118,7 @@ const CrearPublicacion = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
+          className="w-full bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
         >
           Crear Producto
         </button>

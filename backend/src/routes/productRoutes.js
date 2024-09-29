@@ -7,7 +7,8 @@ import { createProductController,
     deleteProductController,
     addFavoriteController,
     removeFavoriteController,
-    getFavoritesController
+    getFavoritesController,
+    getUserProductsController
 } from '../controllers/productController.js'; 
 import authenticateToken from '../middlewares/authenticateToken.js';
 
@@ -16,9 +17,11 @@ const router = express.Router();
 router.get('/product/:id', getProductByIdController);
 router.get('/products', getProductsController);
 router.get('/products/category/:category', getProductsFilteredController);
+router.get('/my-products', authenticateToken, getUserProductsController);
 router.post('/product', authenticateToken, createProductController);
 router.put('/product/:id', authenticateToken, updateProductController);
 router.delete('/product/:id', authenticateToken, deleteProductController);
+
 // Endpoint para agregar un favorito
 router.post('/favorites', addFavoriteController);
 

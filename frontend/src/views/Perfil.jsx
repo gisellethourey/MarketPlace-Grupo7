@@ -63,7 +63,7 @@ const Perfil = () => {
           </section>
         </div>
               <Link to="/crear-publicacion">
-                <button className="bg-blue-500 text-white px-4 py-2 mt-5 rounded">Crear Producto</button>
+                <button className="bg-gray-500 text-white px-4 py-2 mt-5 rounded">Crear Producto</button>
               </Link>
         <section className="p-4 pt-10 mb-5">
           <h2 className="mb-5 text-2xl">Mis Publicaciones</h2>
