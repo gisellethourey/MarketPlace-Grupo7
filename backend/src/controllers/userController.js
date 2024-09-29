@@ -2,7 +2,7 @@ import {
   createNewUser,
   findUserByEmail,
   updateExistingUser,
-  deleteExistingUser,
+  deleteExistingUser
 } from '../model/userModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -50,6 +50,22 @@ export const loginUserController = async (req, res) => {
     return res.status(200).json({ message: 'Login exitoso', token });
   } catch (error) {
     return res.status(500).json({ message: 'Error durante el inicio de sesión', error: error.message });
+  }
+};
+
+// Obtener perfil de usuario
+export const getUserProfileController = async (req, res) => {
+  const { email } = req.user;
+
+  try {
+    const user = await findUserByEmail(email);
+    if (!user || !user.success) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    const { password, ...userData } = user.data; // Excluir el campo de contraseña
+    res.json(userData);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error.message });
   }
 };
 

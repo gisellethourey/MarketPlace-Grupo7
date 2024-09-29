@@ -36,7 +36,7 @@ const Login = () => {
       }
 
       const data = await response.json();
-      await login(data.token);
+      await login(data.token); // Llamar a la función login con el token
       setError('');
       setEmail('');
       setPassword('');
@@ -57,4 +57,3 @@ const Login = () => {
 };
 
 export default Login;
-

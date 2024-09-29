@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import MisPublicaciones from "../components/MisPublicaciones";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext"; // Importar useAuth
 
 const Perfil = () => {
+  const { user } = useAuth(); // Obtener datos del usuario
+
+  useEffect(() => {
+    console.log("Datos del usuario:", user);
+  }, [user]); // Monitorear cambios en los datos del usuario
+
   return (
     <div className="flex flex-col justify-around min-h-screen">
       <NavBar />
@@ -24,6 +31,8 @@ const Perfil = () => {
                   id="nombre"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   placeholder="Ingrese su nombre"
+                  value={user?.nombre || ""}
+                  readOnly
                 />
               </div>
               <div className="mb-4 flex items-center">
@@ -33,6 +42,8 @@ const Perfil = () => {
                   id="email"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   placeholder="Ingrese su email"
+                  value={user?.email || ""}
+                  readOnly
                 />
               </div>
               <div className="mb-4 flex items-center">
@@ -42,6 +53,8 @@ const Perfil = () => {
                   id="telefono"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   placeholder="Ingrese su teléfono"
+                  value={user?.telefono || ""}
+                  readOnly
                 />
               </div>
             </form>
@@ -65,4 +78,3 @@ const Perfil = () => {
 };
 
 export default Perfil;
-

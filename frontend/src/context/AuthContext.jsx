@@ -17,10 +17,28 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve, reject) => {
       try {
         if (token) {
-          const userData = { token };
-          localStorage.setItem('user', JSON.stringify(userData));
-          setUser(userData);
-          resolve();
+         
+          fetch(`${import.meta.env.VITE_API_URL}/usuarios/profile`, { 
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            const userData = {
+              token,
+              nombre: data.username,
+              email: data.email,
+              telefono: data.phone_number
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            setUser(userData);
+            resolve();
+          })
+          .catch(error => {
+            reject('Error al obtener los datos del usuario');
+          });
         } else {
           reject('Token no válido');
         }

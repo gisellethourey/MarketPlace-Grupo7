@@ -24,7 +24,7 @@ export const findUserByEmail = async (email) => {
     return result.rows.length ? { success: true, data: result.rows[0] } : null;
   } catch (error) {
     console.error('Error obteniendo el usuario:', error);
-    return null;
+    return { success: false, error: 'Error obteniendo el usuario' };
   }
 };
 
