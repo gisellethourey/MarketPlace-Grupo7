@@ -36,7 +36,7 @@ const Login = () => {
       }
 
       const data = await response.json();
-      await login(data.token); // Llamar a la función login con el token
+      await login(data.token); 
       setError('');
       setEmail('');
       setPassword('');

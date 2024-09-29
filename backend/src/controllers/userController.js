@@ -62,7 +62,7 @@ export const getUserProfileController = async (req, res) => {
     if (!user || !user.success) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-    const { password, ...userData } = user.data; // Excluir el campo de contraseña
+    const { password, ...userData } = user.data; 
     res.json(userData);
   } catch (error) {
     return res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error.message });

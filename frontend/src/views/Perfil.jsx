@@ -5,14 +5,14 @@ import { faUser, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import MisPublicaciones from "../components/MisPublicaciones";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { useAuth } from "../context/AuthContext"; // Importar useAuth
+import { useAuth } from "../context/AuthContext"; 
 
 const Perfil = () => {
-  const { user } = useAuth(); // Obtener datos del usuario
+  const { user } = useAuth(); 
 
   useEffect(() => {
     console.log("Datos del usuario:", user);
-  }, [user]); // Monitorear cambios en los datos del usuario
+  }, [user]); 
 
   return (
     <div className="flex flex-col justify-around min-h-screen">

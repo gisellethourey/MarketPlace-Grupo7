@@ -84,7 +84,7 @@ const Productos = () => {
         isOpen={isDetailSidebarOpen}
         onClose={handleDetailSidebarClose}
         product={selectedProduct}
-        onGoToCart={handleGoToCart} // Pasar la función de handleGoToCart
+        onGoToCart={handleGoToCart} 
       />
 
       <h1 className="text-3xl font-bold my-8">Productos</h1>

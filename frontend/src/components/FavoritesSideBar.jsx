@@ -5,10 +5,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 const FavoritesSidebar = ({ isOpen, onClose, favorites }) => {
   return (
     <>
-      {/* Fondo con desenfoque */}
+     
       <div className={`fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={onClose}></div>
       
-      {/* Barra lateral de favoritos */}
       <div className={`fixed right-0 top-0 w-64 h-full rounded-lg bg-customColor shadow-lg transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300`}>
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-xl font-bold">Favoritos</h2>

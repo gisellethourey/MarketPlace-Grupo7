@@ -64,7 +64,7 @@ const Register = () => {
 
       const data = await response.json();
       if (data.token) {
-        await register(data.token); // Asegúrate de que `register` maneje el token correctamente
+        await register(data.token); 
         setError('');
         navigate('/productos');
       } else {

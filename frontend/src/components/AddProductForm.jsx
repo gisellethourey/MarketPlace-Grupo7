@@ -7,7 +7,7 @@ const AddProductForm = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState(''); // URL de la imagen
+  const [image, setImage] = useState(''); 
   const [message, setMessage] = useState(''); 
 
   const handleSubmit = async (e) => {
@@ -26,7 +26,7 @@ const AddProductForm = () => {
       description,
       category,
       price: parseFloat(price),
-      image, // URL de la imagen
+      image, 
     };
 
     try {
